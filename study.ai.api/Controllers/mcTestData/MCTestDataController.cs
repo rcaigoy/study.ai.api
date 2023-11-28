@@ -21,7 +21,7 @@ namespace study.ai.api.Controllers.testData
             var testData = await gptService.GenerateTestJsonAsync(testDescription);
 
             // Return the processed testData
-            return CreatedAtAction(nameof(MCTestData), testData);
+            return Ok(testData);
         }
     }
 }

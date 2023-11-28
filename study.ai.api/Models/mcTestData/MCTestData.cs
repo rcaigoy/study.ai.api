@@ -14,7 +14,7 @@ namespace study.ai.api.Models.mcTestData
         public string QuestionText { get; set; }
 
         [JsonProperty("options")]
-        public List<Option> Options { get; set; }
+        public List<OptionVM> Options { get; set; }
 
         [JsonProperty("correctAnswer")]
         public string CorrectAnswer { get; set; }
@@ -23,10 +23,10 @@ namespace study.ai.api.Models.mcTestData
         public string AnswerDescription { get; set; }
     }
 
-    public class Option
+    public class OptionVM
     {
         [JsonProperty("option")]
-        public string OptionLetter { get; set; }
+        public string Option { get; set; }
 
         [JsonProperty("text")]
         public string Text { get; set; }

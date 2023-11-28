@@ -1,29 +1,45 @@
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+namespace study.ai.api
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    builder.Configuration.AddUserSecrets<Program>();
+    public class Program
+    {
+        private static IConfiguration _configuration { get; } = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddEnvironmentVariables()
+            .AddUserSecrets<Program>()
+            .Build();
+
+        public static int Main(string[] args)
+        {
+            try
+            {
+                CreateHostBuilder(args).Build().Run();
+                return 0;
+            }
+            catch (Exception ex) 
+            {
+                return 1;
+            }
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.ConfigureAppConfiguration(appConfiguration =>
+                {
+
+                });
+                webBuilder.UseStartup<Startup>();
+                webBuilder.ConfigureKestrel(options =>
+                {
+                    options.ConfigureHttpsDefaults(o =>
+                    {
+                        o.ClientCertificateMode = ClientCertificateMode.AllowCertificate;
+                    });
+                });
+            });
+    }
 }
-
-//app.UseHttpsRedirection();
-
-app.UseCors("default");
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
