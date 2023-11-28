@@ -1,0 +1,139 @@
+{
+  "questions": [
+    {
+      "questionText": "Who is the only character in 'Avatar: The Last Airbender' who can bend all four elements?",
+      "options": [
+        {
+          "option": "A",
+          "text": "Prince Zuko",
+          "description": "Prince Zuko is a skilled firebender, but cannot bend all four elements."
+        },
+        {
+          "option": "B",
+          "text": "Toph Beifong",
+          "description": "Toph Beifong is a master earthbender, particularly known for inventing metalbending."
+        },
+        {
+          "option": "C",
+          "text": "Aang",
+          "description": "Aang, the protagonist of the series, is the Avatar and can bend all four elements."
+        },
+        {
+          "option": "D",
+          "text": "Katara",
+          "description": "Katara is a waterbending master from the Southern Water Tribe."
+        }
+      ],
+      "correctAnswer": "C",
+      "answerDescription": "Aang is the Avatar and can bend all four elements: water, earth, fire, and air."
+    },
+    {
+      "questionText": "What is the name of Zuko's sister?",
+      "options": [
+        {
+          "option": "A",
+          "text": "Azula",
+          "description": "Azula is Zuko's younger sister, known for her blue firebending."
+        },
+        {
+          "option": "B",
+          "text": "Suki",
+          "description": "Suki is the leader of the Kyoshi Warriors, not Zuko's sister."
+        },
+        {
+          "option": "C",
+          "text": "Mai",
+          "description": "Mai is an ally of Azula and Zuko's love interest, not his sister."
+        },
+        {
+          "option": "D",
+          "text": "Yue",
+          "description": "Princess Yue is from the Northern Water Tribe and not related to Zuko."
+        }
+      ],
+      "correctAnswer": "A",
+      "answerDescription": "Azula is the name of Zuko's sister, a powerful and prodigious firebender."
+    },
+    {
+      "questionText": "Which animal does not exist in the world of 'Avatar: The Last Airbender'?",
+      "options": [
+        {
+          "option": "A",
+          "text": "Platypus bear",
+          "description": "Platypus bears are a hybrid animal found in the world of Avatar."
+        },
+        {
+          "option": "B",
+          "text": "Turtle duck",
+          "description": "Turtle ducks are another example of a hybrid animal in the Avatar series."
+        },
+        {
+          "option": "C",
+          "text": "Sky bison",
+          "description": "Sky bisons, like Appa, are the traditional companions of the Air Nomads."
+        },
+        {
+          "option": "D",
+          "text": "Penguin",
+          "description": "Regular penguins do not exist in the Avatar world; instead, they have penguin seals."
+        }
+      ],
+      "correctAnswer": "D",
+      "answerDescription": "Regular penguins are not present in the Avatar world; the series features penguin seals."
+    },
+    {
+      "questionText": "Who teaches Aang earthbending?",
+      "options": [
+        {
+          "option": "A",
+          "text": "Iroh",
+          "description": "Iroh, a former firebending general and Zuko's uncle, does not teach Aang earthbending."
+        },
+        {
+          "option": "B",
+          "text": "Toph Beifong",
+          "description": "Toph Beifong, a master earthbender and the inventor of metalbending, teaches Aang earthbending."
+        },
+        {
+          "option": "C",
+          "text": "Pakku",
+          "description": "Pakku is a waterbending master from the Northern Water Tribe."
+        },
+        {
+          "option": "D",
+          "text": "King Bumi",
+          "description": "King Bumi is an old friend of Aang's and a powerful earthbender, but he is not Aang's teacher."
+        }
+      ],
+      "correctAnswer": "B",
+      "answerDescription": "Toph Beifong teaches Aang earthbending, helping him to master this element."
+    },
+    {
+      "questionText": "What is the primary occupation of Sokka and Katara's father, Hakoda?",
+      "options": [
+        {
+          "option": "A",
+          "text": "Fisherman",
+          "description": "Hakoda is not a fisherman; he is a leader and warrior of the Southern Water Tribe."
+        },
+        {
+          "option": "B",
+          "text": "Healer",
+          "description": "Healing is an important skill in the Water Tribe, but it is not Hakoda's occupation."
+        },
+        {
+          "option": "C",
+          "text": "Chief of the Southern Water Tribe",
+          "description": "Hakoda is a respected leader and warrior, effectively acting as the chief of the Southern Water Tribe during the war."
+        },
+        {
+          "option": "D",
+          "text": "Merchant",
+          "description": "Hakoda's role is more involved in leadership and battle, not in trade or commerce."
+        }
+      ],
+      "correctAnswer": "C",
+      "answerDescription": "Hakoda serves as the leader and chief of the Southern Water Tribe and is a skilled warrior."
+    }
+  ]
+}
