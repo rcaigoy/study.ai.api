@@ -15,7 +15,7 @@ namespace study.ai.api.Logic.ai
         {
             _httpClient = new HttpClient();
             _apiKey = apiKey;
-            var exampleJsonFilePath = Environment.CurrentDirectory + @"\testData\apiTestData.json";
+            var exampleJsonFilePath = FileHelpers.ExampleJsonFilePath;
             _exampleJson = File.ReadAllText(exampleJsonFilePath);
         }
 

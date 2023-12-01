@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Serilog;
+using Microsoft.AspNetCore.Builder;
 
 namespace study.ai.api
 {
@@ -18,7 +19,7 @@ namespace study.ai.api
             services.AddControllers();
             services.AddMvc();
             services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            //services.AddSwaggerGen();
             services.AddCors(options =>
             {
                 options.AddPolicy("MyAllowSpecificOrigins",
@@ -37,8 +38,8 @@ namespace study.ai.api
             // Configure the HTTP request pipeline.
             if (env.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                //app.UseSwagger();
+                //app.UseSwaggerUI();
             }
 
             //app.UseHttpsRedirection();

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Server.Kestrel.Https;
+using Serilog;
 
 namespace study.ai.api
 {
@@ -13,8 +14,13 @@ namespace study.ai.api
 
         public static int Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(_configuration)
+                .CreateLogger();
+
             try
             {
+                Log.Information("Starting quizcraftai API service.");
                 CreateHostBuilder(args).Build().Run();
                 return 0;
             }

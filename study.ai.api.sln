@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "study.ai.api", "study.ai.ap
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testConsoles", "testConsoles", "{A3B85843-8940-4494-BE54-5AA0365E5A7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "study.ai.testconsole", "study.ai.testconsole\study.ai.testconsole.csproj", "{A34CA788-9248-4C33-B8BA-E82450F20FA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "study.ai.testconsole", "study.ai.testconsole\study.ai.testconsole.csproj", "{A34CA788-9248-4C33-B8BA-E82450F20FA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{1BEBCD31-14E9-4BC3-9D02-0AAE7228C4DA}"
+	ProjectSection(SolutionItems) = preProject
+		tools\Publish-Docker-to-AWS.ps1 = tools\Publish-Docker-to-AWS.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

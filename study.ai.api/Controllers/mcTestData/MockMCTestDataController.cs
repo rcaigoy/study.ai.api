@@ -22,5 +22,15 @@ namespace study.ai.api.Controllers.testData
 
             return Ok(testData);
         }
+
+        // POST method to receive and return MCTestData
+        [HttpGet]
+        public async Task<ActionResult<MCTestData>> GetMCTestData()
+        {
+            var mockPromptService = new MockPromptService();
+            var testData = await mockPromptService.GenerateTestJsonAsync(string.Empty);
+
+            return Ok(testData);
+        }
     }
 }
