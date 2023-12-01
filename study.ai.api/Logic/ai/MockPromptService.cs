@@ -7,7 +7,7 @@ namespace study.ai.api.Logic.ai
     {
         public async Task<MCTestData> GenerateTestJsonAsync(string testDescription)
         {
-            var exampleJsonFilePath = Environment.CurrentDirectory + @"\testData\apiTestData.json";
+            var exampleJsonFilePath = FileHelpers.ExampleJsonFilePath;
             var exampleJson = await File.ReadAllTextAsync(exampleJsonFilePath);
 
             var result = JsonConvert.DeserializeObject<MCTestData>(exampleJson);
