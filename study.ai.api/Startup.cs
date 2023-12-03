@@ -25,7 +25,7 @@ namespace study.ai.api
                 options.AddPolicy("MyAllowSpecificOrigins",
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:3000") // Replace with your client app's URL
+                    builder.WithOrigins("http://localhost:3000","https://quizcraftai.com") // Replace with your client app's URL
                            .AllowAnyHeader()
                            .AllowAnyMethod(); // This allows all methods, including POST
                 });
