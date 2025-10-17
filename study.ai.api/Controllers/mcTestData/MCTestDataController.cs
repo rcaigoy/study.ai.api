@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using study.ai.api.Logic.ai;
 using study.ai.api.Models.mcTestData;
+using study.ai.api.Models;
 
 namespace study.ai.api.Controllers.testData
 {

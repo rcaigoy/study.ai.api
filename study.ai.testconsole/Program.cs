@@ -1,5 +1,6 @@
 ﻿using study.ai.api;
 using study.ai.api.Logic.ai;
+using study.ai.api.Models;
 
 namespace study.ai.testconsole
 {

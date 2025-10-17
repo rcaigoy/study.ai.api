@@ -21,6 +21,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Logic\ai\enum\**" />
+    <Compile Remove="Logic\mcTestData\**" />
+    <Content Remove="Logic\ai\enum\**" />
+    <Content Remove="Logic\mcTestData\**" />
+    <EmbeddedResource Remove="Logic\ai\enum\**" />
+    <EmbeddedResource Remove="Logic\mcTestData\**" />
+    <None Remove="Logic\ai\enum\**" />
+    <None Remove="Logic\mcTestData\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -33,8 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Logic\ai\enum\" />
-    <Folder Include="Logic\mcTestData\" />
     <Folder Include="testData\" />
   </ItemGroup>
 
