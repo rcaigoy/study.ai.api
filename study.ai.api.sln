@@ -14,6 +14,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{1BEBCD31
 		tools\Publish-Docker-to-AWS.ps1 = tools\Publish-Docker-to-AWS.ps1
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfKnowledgeBase.Lib", "PdfKnowledgeBase.Lib\PdfKnowledgeBase.Lib.csproj", "{6EBEC4E2-FD97-4B58-8BE5-160189EABB7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfKnowledgeBase.Console", "PdfKnowledgeBase.Console\PdfKnowledgeBase.Console.csproj", "{BF6945F7-1D12-414A-ABA6-ECC80873DDF4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +32,14 @@ Global
 		{A34CA788-9248-4C33-B8BA-E82450F20FA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A34CA788-9248-4C33-B8BA-E82450F20FA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A34CA788-9248-4C33-B8BA-E82450F20FA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6EBEC4E2-FD97-4B58-8BE5-160189EABB7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6EBEC4E2-FD97-4B58-8BE5-160189EABB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6EBEC4E2-FD97-4B58-8BE5-160189EABB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6EBEC4E2-FD97-4B58-8BE5-160189EABB7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF6945F7-1D12-414A-ABA6-ECC80873DDF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF6945F7-1D12-414A-ABA6-ECC80873DDF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF6945F7-1D12-414A-ABA6-ECC80873DDF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF6945F7-1D12-414A-ABA6-ECC80873DDF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
