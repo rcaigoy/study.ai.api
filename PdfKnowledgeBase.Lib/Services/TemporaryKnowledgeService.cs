@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using PdfKnowledgeBase.Lib.DTOs;
 using PdfKnowledgeBase.Lib.Interfaces;
 using PdfKnowledgeBase.Lib.Models;
+using System.Text.Json;
 
 namespace PdfKnowledgeBase.Lib.Services;
 
@@ -323,28 +324,72 @@ Based on the following document content, generate {questionCount} multiple choic
 Document Content:
 {context}
 
-For each question, provide:
-1. The question text
-2. Four answer options (A, B, C, D)
-3. The correct answer
-4. An explanation of why that answer is correct
-5. The chapter or section the question relates to (if applicable)
+Return ONLY a valid JSON array in this EXACT format (no additional text, no markdown):
+[
+  {{
+    ""question"": ""What is..?"",
+    ""options"": [""Option A"", ""Option B"", ""Option C"", ""Option D""],
+    ""correctAnswer"": ""Option A"",
+    ""explanation"": ""This is correct because..."",
+    ""chapter"": ""Chapter 1"",
+    ""difficulty"": ""{difficulty}""
+  }}
+]
 
-Format the response as a JSON array of questions.
+Generate {questionCount} questions following this format exactly.
 ";
 
             var request = new ChatGptRequestDto
             {
                 Message = prompt,
-                SystemPrompt = "You are an educational content creator. Generate high-quality quiz questions that test understanding of the material. Make questions challenging but fair.",
+                SystemPrompt = "You are an educational content creator. Generate high-quality quiz questions that test understanding of the material. Return ONLY a valid JSON array with no additional text or markdown formatting.",
                 Temperature = 0.7,
                 MaxTokens = 2000
             };
 
             var response = await _chatGptService.SendMessageAsync(request);
             
-            // Parse the JSON response into QuizQuestion objects
-            // For now, return mock questions
+            if (response.Success && !string.IsNullOrWhiteSpace(response.Response))
+            {
+                try
+                {
+                    // Clean up the response (remove markdown code blocks if present)
+                    var jsonResponse = response.Response.Trim();
+                    if (jsonResponse.StartsWith("```json"))
+                    {
+                        jsonResponse = jsonResponse.Substring(7);
+                    }
+                    if (jsonResponse.StartsWith("```"))
+                    {
+                        jsonResponse = jsonResponse.Substring(3);
+                    }
+                    if (jsonResponse.EndsWith("```"))
+                    {
+                        jsonResponse = jsonResponse.Substring(0, jsonResponse.Length - 3);
+                    }
+                    jsonResponse = jsonResponse.Trim();
+                    
+                    // Try to parse as JSON array
+                    var questions = JsonSerializer.Deserialize<List<QuizQuestion>>(jsonResponse, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+                    
+                    if (questions != null && questions.Any())
+                    {
+                        _logger.LogInformation("Successfully generated {Count} quiz questions from ChatGPT", questions.Count);
+                        return questions;
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    _logger.LogWarning(ex, "Failed to parse ChatGPT response as JSON. Response: {Response}", response.Response.Substring(0, Math.Min(200, response.Response.Length)));
+                }
+            }
+            
+            // Fallback to mock questions if parsing fails
+            _logger.LogWarning("Using mock quiz questions as fallback");
             return GenerateMockQuizQuestions(questionCount);
         }
         catch (Exception ex)
@@ -374,27 +419,70 @@ Based on the following document content, generate {flashcardCount} flashcards fo
 Document Content:
 {context}
 
-For each flashcard, provide:
-1. A term, concept, or question for the front
-2. A definition, explanation, or answer for the back
-3. The chapter or section it relates to (if applicable)
-4. Additional context or examples
+Return ONLY a valid JSON array in this EXACT format (no additional text, no markdown):
+[
+  {{
+    ""front"": ""What is consideration in contract law?"",
+    ""back"": ""Something of value exchanged between parties..."",
+    ""chapter"": ""Chapter 3"",
+    ""context"": ""Additional context or examples""
+  }}
+]
 
-Format the response as a JSON array of flashcards.
+Generate {flashcardCount} flashcards following this format exactly.
 ";
 
             var request = new ChatGptRequestDto
             {
                 Message = prompt,
-                SystemPrompt = "You are a study assistant. Create effective flashcards that help with memorization and understanding of key concepts.",
+                SystemPrompt = "You are a study assistant. Create effective flashcards that help with memorization and understanding of key concepts. Return ONLY a valid JSON array with no additional text or markdown formatting.",
                 Temperature = 0.7,
                 MaxTokens = 2000
             };
 
             var response = await _chatGptService.SendMessageAsync(request);
             
-            // Parse the JSON response into Flashcard objects
-            // For now, return mock flashcards
+            if (response.Success && !string.IsNullOrWhiteSpace(response.Response))
+            {
+                try
+                {
+                    // Clean up the response (remove markdown code blocks if present)
+                    var jsonResponse = response.Response.Trim();
+                    if (jsonResponse.StartsWith("```json"))
+                    {
+                        jsonResponse = jsonResponse.Substring(7);
+                    }
+                    if (jsonResponse.StartsWith("```"))
+                    {
+                        jsonResponse = jsonResponse.Substring(3);
+                    }
+                    if (jsonResponse.EndsWith("```"))
+                    {
+                        jsonResponse = jsonResponse.Substring(0, jsonResponse.Length - 3);
+                    }
+                    jsonResponse = jsonResponse.Trim();
+                    
+                    // Try to parse as JSON array
+                    var flashcards = JsonSerializer.Deserialize<List<Flashcard>>(jsonResponse, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                        PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                    });
+                    
+                    if (flashcards != null && flashcards.Any())
+                    {
+                        _logger.LogInformation("Successfully generated {Count} flashcards from ChatGPT", flashcards.Count);
+                        return flashcards;
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    _logger.LogWarning(ex, "Failed to parse ChatGPT response as JSON. Response: {Response}", response.Response.Substring(0, Math.Min(200, response.Response.Length)));
+                }
+            }
+            
+            // Fallback to mock flashcards if parsing fails
+            _logger.LogWarning("Using mock flashcards as fallback");
             return GenerateMockFlashcards(flashcardCount);
         }
         catch (Exception ex)
@@ -582,7 +670,25 @@ Format the response as a JSON array of flashcards.
             
             if (!chapterChunks.Any())
             {
-                return $"No content found for chapter '{chapterName}'.";
+                // Fallback: Try to find chunks by page number if chapter name looks like a page reference
+                if (int.TryParse(chapterName, out int pageNum))
+                {
+                    if (!_cache.TryGetValue($"knowledge_{sessionId}", out List<DocumentChunk> allChunks))
+                    {
+                        return $"Session expired or not found.";
+                    }
+                    
+                    chapterChunks = allChunks.Where(c => c.PageNumber == pageNum).ToList();
+                    
+                    if (!chapterChunks.Any())
+                    {
+                        return $"No content found for page {pageNum}.";
+                    }
+                }
+                else
+                {
+                    return $"No content found for chapter '{chapterName}'. Try using a page number or a different chapter name.";
+                }
             }
 
             // Combine all chapter content

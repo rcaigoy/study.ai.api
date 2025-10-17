@@ -282,6 +282,9 @@ public class ChunkingService : IChunkingService
 
     private DocumentChunk CreateDocumentChunk(string text, int pageNumber, int chunkIndex, int totalChunks)
     {
+        // Try to detect chapter from the text
+        var chapter = DetectChapterFromText(text, pageNumber);
+        
         return new DocumentChunk
         {
             Id = $"page_{pageNumber}_chunk_{chunkIndex}",
@@ -289,6 +292,7 @@ public class ChunkingService : IChunkingService
             PageNumber = pageNumber,
             ChunkIndex = chunkIndex,
             TotalChunks = totalChunks,
+            Chapter = chapter,
             Metadata = new Dictionary<string, object>
             {
                 ["created_at"] = DateTime.UtcNow,
@@ -296,6 +300,45 @@ public class ChunkingService : IChunkingService
                 ["word_count"] = text.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length
             }
         };
+    }
+
+    private string? DetectChapterFromText(string text, int pageNumber)
+    {
+        try
+        {
+            // Look for common chapter patterns at the start of the text
+            var firstLines = text.Split('\n').Take(5).Select(l => l.Trim());
+            
+            foreach (var line in firstLines)
+            {
+                // Match patterns like:
+                // "Chapter 1", "CHAPTER ONE", "Ch. 1:", "1. Introduction", "Part I", etc.
+                var chapterPatterns = new[]
+                {
+                    @"^(Chapter|CHAPTER|Ch\.|Ch)\s+(\d+|[IVX]+|One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten)[\s:.\-]*(.*)",
+                    @"^(Part|PART|Section|SECTION)\s+(\d+|[IVX]+|One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten)[\s:.\-]*(.*)",
+                    @"^(\d+)\.\s+([A-Z][a-zA-Z\s]+)$",
+                    @"^([IVX]+)\.\s+([A-Z][a-zA-Z\s]+)$"
+                };
+                
+                foreach (var pattern in chapterPatterns)
+                {
+                    var match = Regex.Match(line, pattern);
+                    if (match.Success && line.Length < 100) // Chapter titles are usually short
+                    {
+                        return line;
+                    }
+                }
+            }
+            
+            // Fallback: Use page number as chapter indicator
+            return $"Pages {pageNumber}-{pageNumber + 5}";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogDebug(ex, "Error detecting chapter from text");
+            return $"Page {pageNumber}";
+        }
     }
 
     private string GetOverlapText(string text, int overlapSize)
