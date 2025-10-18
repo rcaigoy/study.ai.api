@@ -1,5 +1,7 @@
 ﻿using Serilog;
 using Microsoft.AspNetCore.Builder;
+using PdfKnowledgeBase.Lib.Extensions;
+using study.ai.api.Models;
 
 namespace study.ai.api
 {
@@ -29,6 +31,17 @@ namespace study.ai.api
                            .AllowAnyHeader()
                            .AllowAnyMethod(); // This allows all methods, including POST
                 });
+            });
+
+            // Register PDF Knowledge Base services
+            services.AddPdfKnowledgeBase(options =>
+            {
+                options.ChatGptApiKey = PrivateValues.ChatGPTApiKey;
+                options.HttpTimeoutSeconds = 60;
+                options.DefaultSessionExpirationHours = 2;
+                options.MaxFileSizeMB = 50;
+                options.DefaultChunkSize = 1500;
+                options.DefaultChunkOverlap = 300;
             });
         }
 

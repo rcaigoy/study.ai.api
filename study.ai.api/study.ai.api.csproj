@@ -9,7 +9,7 @@
     <DockerFileTag>study.ai.api</DockerFileTag>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>0.1.4</Version>
+    <Version>0.1.5</Version>
     <Description>API for study.ai</Description>
     <Copyright>All rights reserved</Copyright>
     <RepositoryType>AWS Docker Container</RepositoryType>
@@ -17,6 +17,7 @@
       v0.1.1 - Initial aws version.
       v0.1.2 - Adds get call for testing
       v0.1.4 - POC deployed
+      v0.1.5 - pdf mc test
     </PackageReleaseNotes>
   </PropertyGroup>
 
@@ -45,6 +46,10 @@
 
   <ItemGroup>
     <Folder Include="testData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PdfKnowledgeBase.Lib\PdfKnowledgeBase.Lib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
