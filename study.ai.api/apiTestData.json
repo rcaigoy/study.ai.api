@@ -1,0 +1,31 @@
+{
+  "questions": [
+    {
+      "questionText": "Who is the only character in 'Avatar: The Last Airbender' who can bend all four elements?",
+      "options": [
+        {
+          "option": "A",
+          "text": "Prince Zuko",
+          "description": "Prince Zuko is a skilled firebender, but cannot bend all four elements."
+        },
+        {
+          "option": "B",
+          "text": "Toph Beifong",
+          "description": "Toph Beifong is a master earthbender, particularly known for inventing metalbending."
+        },
+        {
+          "option": "C",
+          "text": "Aang",
+          "description": "Aang, the protagonist of the series, is the Avatar and can bend all four elements."
+        },
+        {
+          "option": "D",
+          "text": "Katara",
+          "description": "Katara is a waterbending master from the Southern Water Tribe."
+        }
+      ],
+      "correctAnswer": "C",
+      "answerDescription": "Aang is the Avatar and can bend all four elements: water, earth, fire, and air."
+    }
+  ]
+}
