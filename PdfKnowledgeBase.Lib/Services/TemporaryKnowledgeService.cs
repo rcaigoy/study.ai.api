@@ -325,16 +325,37 @@ Document Content:
 {context}
 
 Return ONLY a valid JSON array in this EXACT format (no additional text, no markdown):
-[
-  {{
-    ""question"": ""What is..?"",
-    ""options"": [""Option A"", ""Option B"", ""Option C"", ""Option D""],
-    ""correctAnswer"": ""Option A"",
-    ""explanation"": ""This is correct because..."",
-    ""chapter"": ""Chapter 1"",
-    ""difficulty"": ""{difficulty}""
-  }}
-]
+{{
+    ""questions"": [
+        {{
+            ""questionText"": ""Who was the first President of the United States?"",
+            ""options"": [
+                {{
+                    ""option"": ""A"",
+                    ""text"": ""Thomas Jefferson"",
+                    ""description"": ""Thomas Jefferson was the third President of the United States.""
+                }},
+                {{
+                    ""option"": ""B"",
+                    ""text"": ""Alexander Hamilton"",
+                    ""description"": ""Alexander Hamilton was not a President of the United States.""
+                }},
+                {{
+                    ""option"": ""C"",
+                    ""text"": ""George Washington"",
+                    ""description"": ""George Washington served as the first President of the United States.""
+                }},
+                {{
+                    ""option"": ""D"",
+                    ""text"": ""John Adams"",
+                    ""description"": ""John Adams was the second President of the United States.""
+                }}
+            ],
+            ""correctAnswer"": ""C"",
+            ""answerDescription"": ""George Washington was the first President of the United States, serving from 1789 to 1797.""
+        }},
+    ]
+}}
 
 Generate {questionCount} questions following this format exactly.
 ";
