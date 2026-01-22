@@ -49,15 +49,24 @@ namespace study.ai.api.Logic.ai
 
                 if (jsonContent is null)
                 {
-                    throw new Exception();
+                    throw new Exception("Failed to generate test: ChatGPT returned null content");
                 }
 
                 // Deserialize into MCTestData
                 var testData = JsonConvert.DeserializeObject<MCTestData>(json);
+                
+                if (testData == null)
+                {
+                    throw new Exception("Failed to deserialize test data from ChatGPT response");
+                }
+                
                 return testData;
             }
-
-            throw new Exception();
+            else
+            {
+                var errorContent = await response.Content.ReadAsStringAsync();
+                throw new Exception($"ChatGPT API error: {response.StatusCode} - {errorContent}");
+            }
         }
     }
 }

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Serilog;
 
 namespace study.ai.api
@@ -39,13 +38,6 @@ namespace study.ai.api
 
                 });
                 webBuilder.UseStartup<Startup>();
-                webBuilder.ConfigureKestrel(options =>
-                {
-                    options.ConfigureHttpsDefaults(o =>
-                    {
-                        o.ClientCertificateMode = ClientCertificateMode.AllowCertificate;
-                    });
-                });
             });
     }
 }

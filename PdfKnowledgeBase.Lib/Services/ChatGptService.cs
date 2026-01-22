@@ -2,7 +2,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using PdfKnowledgeBase.Lib.DTOs;
 using PdfKnowledgeBase.Lib.Interfaces;
-using study.ai.api.Models;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
@@ -29,25 +28,14 @@ public class ChatGptService : IChatGptService
             PropertyNamingPolicy = JsonNamingPolicy.SnakeCaseLower
         };
 
-        // The API key is now set via HTTP client configuration in ServiceCollectionExtensions
-        // Check if it's already set in the headers, otherwise try to get it from PrivateValues
-        if (_httpClient.DefaultRequestHeaders.Authorization == null)
+        // API key is set via HTTP client configuration in Startup.cs from PrivateValues
+        if (_httpClient.DefaultRequestHeaders.Authorization != null)
         {
-            var apiKey = PrivateValues.ChatGPTApiKey;
-            if (!string.IsNullOrEmpty(apiKey))
-            {
-                _httpClient.DefaultRequestHeaders.Authorization = 
-                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
-                _logger.LogInformation("ChatGPT API key configured from PrivateValues");
-            }
-            else
-            {
-                _logger.LogWarning("No ChatGPT API key found in PrivateValues");
-            }
+            _logger.LogInformation("ChatGPT API key configured via HTTP client");
         }
         else
         {
-            _logger.LogInformation("ChatGPT API key configured via HTTP client");
+            _logger.LogWarning("ChatGPT API key not configured in HTTP client");
         }
 
         if (_httpClient.BaseAddress == null)
@@ -67,8 +55,8 @@ public class ChatGptService : IChatGptService
         
         try
         {
-            var apiKey = PrivateValues.ChatGPTApiKey;
-            if (string.IsNullOrEmpty(apiKey))
+            // Check if API key is configured via HTTP client
+            if (_httpClient.DefaultRequestHeaders.Authorization == null)
             {
                 return CreateMockResponse(request.Message, stopwatch.Elapsed.TotalMilliseconds);
             }
@@ -163,8 +151,7 @@ public class ChatGptService : IChatGptService
         
         try
         {
-            var apiKey = PrivateValues.ChatGPTApiKey;
-            if (string.IsNullOrEmpty(apiKey))
+            if (_httpClient.DefaultRequestHeaders.Authorization == null)
             {
                 return CreateMockResponse($"Image analysis for prompt: {prompt}", stopwatch.Elapsed.TotalMilliseconds);
             }
@@ -256,8 +243,7 @@ public class ChatGptService : IChatGptService
         
         try
         {
-            var apiKey = PrivateValues.ChatGPTApiKey;
-            if (string.IsNullOrEmpty(apiKey))
+            if (_httpClient.DefaultRequestHeaders.Authorization == null)
             {
                 return CreateMockResponse($"Embedding generated for: {text}", stopwatch.Elapsed.TotalMilliseconds);
             }
@@ -328,8 +314,7 @@ public class ChatGptService : IChatGptService
     {
         try
         {
-            var apiKey = PrivateValues.ChatGPTApiKey;
-            if (string.IsNullOrEmpty(apiKey))
+            if (_httpClient.DefaultRequestHeaders.Authorization == null)
             {
                 return null;
             }
@@ -377,8 +362,7 @@ public class ChatGptService : IChatGptService
         
         try
         {
-            var apiKey = PrivateValues.ChatGPTApiKey;
-            if (string.IsNullOrEmpty(apiKey))
+            if (_httpClient.DefaultRequestHeaders.Authorization == null)
             {
                 return CreateMockResponse(request.Message, stopwatch.Elapsed.TotalMilliseconds);
             }
@@ -412,34 +396,19 @@ public class ChatGptService : IChatGptService
     /// </summary>
     public async Task<bool> IsConfiguredAsync()
     {
-        // Check if API key is set in HTTP client headers (from options)
+        await Task.CompletedTask; // Make method async
+        
+        // Check if API key is set in HTTP client (configured from PrivateValues in Startup.cs)
         var httpClientAuth = _httpClient.DefaultRequestHeaders.Authorization;
-        if (httpClientAuth != null && !string.IsNullOrEmpty(httpClientAuth.Parameter))
-        {
-            _logger.LogInformation("ChatGPT API key found in HTTP client headers");
-            //return true;
-        }
-
-        // Fallback to check PrivateValues
-        var apiKey = PrivateValues.ChatGPTApiKey;
-        var isConfigured = !string.IsNullOrEmpty(apiKey);
+        var isConfigured = httpClientAuth != null && !string.IsNullOrEmpty(httpClientAuth.Parameter);
         
         if (isConfigured)
         {
-            _logger.LogInformation("ChatGPT API key found in PrivateValues");
-            // If we found it in PrivateValues but not in HTTP client, try to set it
-            if (httpClientAuth == null)
-            {
-                _httpClient.DefaultRequestHeaders.Authorization = 
-                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
-                _logger.LogInformation("Set ChatGPT API key from PrivateValues to HTTP client");
-            }
+            _logger.LogInformation("ChatGPT API key configured in HTTP client");
         }
         else
         {
-            _logger.LogWarning("ChatGPT API key not found in HTTP client headers or PrivateValues");
-            _logger.LogWarning("HTTP Client Authorization: {Auth}", httpClientAuth?.ToString() ?? "NULL");
-            _logger.LogWarning("PrivateValues API Key: {ApiKey}", apiKey ?? "NULL");
+            _logger.LogWarning("ChatGPT API key not configured in HTTP client");
         }
         
         return isConfigured;

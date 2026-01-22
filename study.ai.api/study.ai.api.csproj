@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>2fb74293-58a6-449c-ab7f-fbe95386899a</UserSecretsId>
@@ -45,6 +45,10 @@
 
   <ItemGroup>
     <Folder Include="testData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PdfKnowledgeBase.Lib\PdfKnowledgeBase.Lib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
